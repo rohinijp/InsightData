@@ -4,10 +4,6 @@
 # the contents of this script could be replaced with similar files from any major language
 
 # I'll execute my programs, with the input directory log_input and output the files in the directory log_output
-#python ./src/process_log.py ./log_input/log.txt ./log_output/hosts.txt ./log_output/hours.txt ./log_output/resources.txt ./log_output/blocked.txt
-set -e
 set -x
 g++ -g -std=c++11 -o insight ./src/insight.cpp
-#time ./insight ./log_input/log_tiny.txt
-#time ./insight ./log_input/log_small.txt
-time ./insight ./log_input/log.txt
+./insight ./log_input/log.txt

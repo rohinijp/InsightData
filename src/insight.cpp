@@ -358,9 +358,7 @@ void detectIllegalLogin()
 
 void feature4_process() {
 
-    cout << "bs" << endl;
     std::sort(feature4.begin(), feature4.end(), hostComparator);
-    cout << "as" << endl;
 
     string prevHost = "";
     int cnt = 0;
@@ -454,23 +452,19 @@ int main(int argc, const char * argv[]) {
                         back_inserter(tokens));
         if (tokens.size() != 10)
             continue;    
-/*
        feature1_input(tokens);
        feature2_input(tokens);
        feature3_input(tokens);
-*/
        feature4_input(tokens);
 
     }
     inFile.close();
     feature1_process();
     cout << "Feature 1 OVER " << endl;
-    /*
     feature2_process();
     cout << "Feature 2 OVER " << endl;
     feature3_process();
     cout << "Feature 3 OVER " << endl;
-    */
     feature4_process();
     cout << "Feature 4 OVER " << endl;
 

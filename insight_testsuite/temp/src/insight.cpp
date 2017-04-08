@@ -452,7 +452,6 @@ int main(int argc, const char * argv[]) {
                         back_inserter(tokens));
         if (tokens.size() != 10)
             continue;    
-
        feature1_input(tokens);
        feature2_input(tokens);
        feature3_input(tokens);
