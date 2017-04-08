@@ -1,0 +1,13 @@
+
+1 5 9:00:00 - 9-:00:01
+2 2 9:00:01 - 9-:00:02
+3 0
+..
+
+
+7200 o       60 - 3660
+             
+
+top 10 max subarray of 3600 from length of 7200 - 0 - 2
+move array doen by 1 hour
+top 10 max subarray of 3600 from length of 7200 - 1.00.01 - 3

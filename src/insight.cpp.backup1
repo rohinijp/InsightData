@@ -1,0 +1,199 @@
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <vector>
+#include <sstream>
+#include <iterator>
+#include <algorithm>
+#include <string>
+#include <list>
+#include <functional>
+#include <ctime>
+
+using namespace std;
+
+bool pairComparator(pair<string,long long int> p1, pair<string,long long int> p2)
+{
+    return p1.second > p2.second; 
+}
+
+std::map<string, long long int> feature1;
+void feature1_input(vector<string> tokens) {
+    string IP = tokens[0];
+
+    if (feature1.find(IP) != feature1.end()) {
+        feature1[IP] = feature1[IP] + 1;
+    } else {
+        feature1.insert(make_pair(IP, 1)); 
+    }
+}
+
+std::map<string, long long int> feature2;
+void feature2_input(vector<string> tokens) {
+
+    string resource = tokens[6];
+    long long int bytes;
+
+    try{
+        if (tokens[9] == "-")
+            bytes = 0;
+        else 
+            bytes = stoll(tokens[9]);
+    }
+    catch(std::invalid_argument& e)
+    {
+    }
+
+    catch(std::out_of_range& e){
+        // if the converted value would fall out of the range of the result type 
+        // or if the underlying function (std::strtol or std::strtoull) sets errno 
+        // to ERANGE.
+    }
+
+    catch(...) {
+        // everything else
+    }
+
+    if (feature2.find(resource) != feature2.end()) {
+        feature2[resource] = feature2[resource] + bytes;
+    } else {
+        feature2.insert(make_pair(resource, bytes));
+    }
+}
+
+vector<pair<string, int>> feature3;
+void feature3_input(vector<string> tokens) {
+
+    static int n; // number of times the function is called.
+    n++;
+    //cout << "n is " << n << endl;
+
+    string date = tokens[3];
+    date = date.substr(1);
+    string timezone = tokens[4];
+    timezone = timezone.substr(0,5);
+
+    string time_string = date + " " + timezone;
+
+    struct tm tm;
+    strptime(time_string.c_str(), "%d/%b/%Y:%H:%M:%S %z", &tm);
+    time_t end_time = mktime(&tm);
+
+    static time_t start_time;
+
+    if (n == 1)
+    {   
+        start_time = end_time;
+     //   cout << "1st time - START TIME is " << start_time << endl;
+     //   cout << "1st time END TIME is " << end_time << endl;
+        return;
+    }
+
+    cout << "START TIME is " << start_time << endl;
+    cout << "END TIME is " << end_time << endl;
+
+    static unsigned int maxPeriod[2];
+    static int count = 1;
+    static int maxCount;
+
+    if (difftime(end_time, start_time) <= 3600) {
+      count = count + 1;
+      maxPeriod[0] = start_time;
+      maxPeriod[1] = end_time;
+    } else {
+       char buffer[80];
+
+        strftime(buffer, sizeof(buffer),  "%d/%b/%Y:%H:%M:%S %z", gmtime(&start_time));
+
+        cout << "The input start_time is " << start_time << endl;
+        cout << "The buffer is " << buffer << endl;
+        string start_time_string(buffer);
+        
+        cout << "The start_time_string is " << start_time_string << endl;
+        feature3.push_back(make_pair(start_time_string, count));
+        count = 0;
+        maxPeriod[0] = 0;
+        maxPeriod[1] = 0;
+    }
+
+    start_time = end_time;
+   // cout << "COPIED START TIME is " << start_time << endl;
+}
+
+void feature1_finish() {
+    vector<pair<string,long long int>> vectorOfPairs;
+
+    for (map<string, long long int> :: iterator it1 = feature1.begin(); it1 != feature1.end() ; ++it1) 
+    {
+        vectorOfPairs.push_back(make_pair(it1->first, it1->second));
+    }
+    std::sort(vectorOfPairs.begin(), vectorOfPairs.end(), pairComparator);
+
+    cout << "BEGIN: Feature1 OUTPUT " << endl;
+    for (vector<pair<string,long long int>> :: iterator it2 = vectorOfPairs.begin(); it2 != vectorOfPairs.end() ; ++it2) 
+    {
+        cout << it2->first << ", " << it2->second << endl;
+    }
+    cout << "END: Feature1 OUTPUT " << endl;
+}
+
+void feature2_finish() {
+    vector<pair<string,long long int>> vectorOfPairs;
+
+    for (map<string, long long int> :: iterator it1 = feature2.begin(); it1 != feature2.end() ; ++it1) 
+    {
+        vectorOfPairs.push_back(make_pair(it1->first, it1->second));
+    }
+
+    std::sort(vectorOfPairs.begin(), vectorOfPairs.end(), pairComparator);
+    
+    cout << "BEGIN: Feature2 OUTPUT " << endl;
+    for (vector<pair<string,long long int>> :: iterator it2 = vectorOfPairs.begin(); it2 != vectorOfPairs.end() ; ++it2) 
+    {
+        cout << it2->first << ", " << it2->second << endl;
+    }
+    cout << "END: Feature2 OUTPUT " << endl;
+}
+
+void feature3_finish() {
+    cout << "BEGIN: Feature3 OUTPUT " << endl;
+    for (vector<pair<string, int>> :: iterator it2 = feature3.begin(); it2 != feature3.end() ; ++it2) 
+    {
+        cout << it2->first << ", " << it2->second << endl;
+    }
+    cout << "END: Feature3 OUTPUT " << endl;
+}
+
+int main(int argc, const char * argv[]) {
+    string inFileName = argv[1];
+    ifstream inFile;
+    inFile.open(inFileName);
+
+
+    if (!inFile.is_open()) {
+        cout << "Cannot open file: " << inFileName << endl;
+    }
+    string line;
+    int cnt = 0;
+    while (getline(inFile, line)) {
+        istringstream iss(line);
+
+        vector<string> tokens;
+        copy(istream_iterator<string>(iss),
+                        istream_iterator<string>(),
+                        back_inserter(tokens));
+        if (tokens.size() != 10)
+            continue;    
+
+     //  feature1_input(tokens);
+     //  feature2_input(tokens);
+       feature3_input(tokens);
+
+    }
+    inFile.close();
+    //feature1_finish();
+    //feature2_finish();
+    feature3_finish();
+
+    return 0;
+}

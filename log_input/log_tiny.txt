@@ -1,0 +1,4 @@
+210.238.40.43 - - [01/Jul/1995:00:00:09 -0400] "GET / HTTP/1.0" 200 7074
+219.156.97.22 - - [01/Jul/1995:00:00:09 -0400] "GET /shuttle/technology/images/sts_spec_6-small.gif HTTP/1.0" 200 47145
+xrf.koo.univie.ac.at - - [01/Jul/1995:00:00:09 -0400] "GET /ksc.html HTTP/1.0" 200 7071
+ts1-and-6.iquest.net - - [01/Jul/1995:23:50:05 -0400] "GET /software/winvn/vinvn.html HTTP/1.0" 404 -

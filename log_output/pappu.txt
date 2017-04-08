@@ -1,0 +1,4 @@
+/shuttle/technology/images/sts_spec_6-small.gif, 47145
+/, 7074
+/ksc.html, 7071
+/software/winvn/vinvn.html, 0
