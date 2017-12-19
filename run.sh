@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+test
+
 # one example of run.sh script for implementing the features using python
 # the contents of this script could be replaced with similar files from any major language
 
